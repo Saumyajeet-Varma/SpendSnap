@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="675" viewBox="0 0 1200 675">
+    <rect width="1200" height="675" rx="24" fill="#0f172a"/>
+    <rect x="0" y="0" width="230" height="675" rx="24" fill="#111827"/>
+    <text x="32" y="48" fill="#f8fafc" font-size="25" font-family="Arial" font-weight="700">SpendWise</text>
+    <rect x="20" y="80" width="190" height="42" rx="10" fill="#0d9488"/>
+    <text x="42" y="107" fill="#ffffff" font-size="16" font-family="Arial">Overview</text>
+    <g fill="#a7b3c8" font-size="16" font-family="Arial">
+      <text x="42" y="160">Transactions</text><text x="42" y="205">My Flat</text><text x="42" y="250">Budgets &amp; Bills</text><text x="42" y="295">Analytics</text><text x="42" y="340">Personal Life</text><text x="42" y="385">Settings</text>
+    </g>
+    <text x="270" y="54" fill="#f8fafc" font-size="30" font-family="Arial" font-weight="700">Good afternoon</text>
+    <text x="270" y="82" fill="#94a3b8" font-size="16" font-family="Arial">Your finances at a glance · October 2026</text>
+    <g>
+      <rect x="270" y="110" width="275" height="120" rx="16" fill="#1e293b"/><rect x="565" y="110" width="275" height="120" rx="16" fill="#1e293b"/><rect x="860" y="110" width="300" height="120" rx="16" fill="#1e293b"/>
+      <text x="294" y="145" fill="#94a3b8" font-size="15" font-family="Arial">Total spending</text><text x="294" y="190" fill="#f8fafc" font-size="32" font-family="Arial" font-weight="700">₹24,850</text>
+      <text x="589" y="145" fill="#94a3b8" font-size="15" font-family="Arial">Income</text><text x="589" y="190" fill="#5eead4" font-size="32" font-family="Arial" font-weight="700">₹85,000</text>
+      <text x="884" y="145" fill="#94a3b8" font-size="15" font-family="Arial">Flatmate owes you</text><text x="884" y="190" fill="#f8fafc" font-size="32" font-family="Arial" font-weight="700">₹2,400</text>
+    </g>
+    <rect x="270" y="250" width="550" height="260" rx="16" fill="#1e293b"/>
+    <text x="296" y="285" fill="#f8fafc" font-size="19" font-family="Arial" font-weight="700">Spending over time</text>
+    <g stroke="#334155" stroke-width="1"><path d="M300 330H790 M300 375H790 M300 420H790 M300 465H790"/></g>
+    <polyline points="310,445 375,420 440,435 505,370 570,390 635,335 700,355 775,315" fill="none" stroke="#2dd4bf" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+    <rect x="840" y="250" width="320" height="260" rx="16" fill="#1e293b"/>
+    <text x="866" y="285" fill="#f8fafc" font-size="19" font-family="Arial" font-weight="700">By category</text>
+    <circle cx="1000" cy="385" r="68" fill="none" stroke="#334155" stroke-width="25"/>
+    <circle cx="1000" cy="385" r="68" fill="none" stroke="#2dd4bf" stroke-width="25" stroke-dasharray="140 288" transform="rotate(-90 1000 385)"/>
+    <circle cx="1000" cy="385" r="68" fill="none" stroke="#60a5fa" stroke-width="25" stroke-dasharray="90 338" stroke-dashoffset="-140" transform="rotate(-90 1000 385)"/>
+    <circle cx="1000" cy="385" r="68" fill="none" stroke="#fbbf24" stroke-width="25" stroke-dasharray="65 363" stroke-dashoffset="-230" transform="rotate(-90 1000 385)"/>
+    <text x="870" y="480" fill="#94a3b8" font-size="13" font-family="Arial">Food · Flat · Travel · Other</text>
+    <rect x="270" y="530" width="890" height="115" rx="16" fill="#1e293b"/>
+    <text x="296" y="565" fill="#f8fafc" font-size="19" font-family="Arial" font-weight="700">Recent transactions</text>
+    <g fill="#cbd5e1" font-size="15" font-family="Arial"><text x="296" y="600">Groceries</text><text x="600" y="600">Shared flat</text><text x="850" y="600">Today</text><text x="1080" y="600">₹1,200</text></g>
+    </svg>
