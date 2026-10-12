@@ -396,6 +396,15 @@ router.delete("/:id", async (req: Request, res: Response) => {
         });
     } 
     catch (err) {
+        if (typeof err === "object" && err !== null && "code" in err && err.code === "P2003") {
+            res.status(409).json({
+                success: false,
+                message: "Cannot delete this account because it has linked records",
+            });
+        
+            return;
+        }
+
         console.error("Failed to delete account:", err);
         res.status(500).json({
             success: false,
