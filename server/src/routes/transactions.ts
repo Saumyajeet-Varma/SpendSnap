@@ -5,7 +5,7 @@ import { prisma } from "../lib/prisma.js";
 
 const router = Router();
 
-const validTypes = Object.values(TransactionType);
+const validTransactionTypes = Object.values(TransactionType);
 
 // GET /api/transactions?userId=...
 router.get("/", async (req: Request, res: Response) => {
@@ -67,7 +67,7 @@ router.post("/", async (req: Request, res: Response) => {
             return;
         }
 
-        if (typeof type !== "string" || !validTypes.includes(type as TransactionType)) {
+        if (typeof type !== "string" || !validTransactionTypes.includes(type as TransactionType)) {
             res.status(400).json({
                 success: false,
                 message: "type must be EXPENSE, INCOME, or REFUND",
