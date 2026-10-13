@@ -84,3 +84,11 @@ model Transaction {
   @@index([accountId])
   @@index([categoryId])
 }
+
+model TokenRevocation {
+  jti       String   @id
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  @@index([expiresAt])
+}

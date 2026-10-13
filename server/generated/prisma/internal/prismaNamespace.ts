@@ -400,7 +400,8 @@ export const ModelName = {
   User: 'User',
   Account: 'Account',
   Category: 'Category',
-  Transaction: 'Transaction'
+  Transaction: 'Transaction',
+  TokenRevocation: 'TokenRevocation'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -416,7 +417,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "account" | "category" | "transaction"
+    modelProps: "user" | "account" | "category" | "transaction" | "tokenRevocation"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -716,6 +717,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    TokenRevocation: {
+      payload: Prisma.$TokenRevocationPayload<ExtArgs>
+      fields: Prisma.TokenRevocationFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.TokenRevocationFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TokenRevocationPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.TokenRevocationFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TokenRevocationPayload>
+        }
+        findFirst: {
+          args: Prisma.TokenRevocationFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TokenRevocationPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.TokenRevocationFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TokenRevocationPayload>
+        }
+        findMany: {
+          args: Prisma.TokenRevocationFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TokenRevocationPayload>[]
+        }
+        create: {
+          args: Prisma.TokenRevocationCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TokenRevocationPayload>
+        }
+        createMany: {
+          args: Prisma.TokenRevocationCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.TokenRevocationCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TokenRevocationPayload>[]
+        }
+        delete: {
+          args: Prisma.TokenRevocationDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TokenRevocationPayload>
+        }
+        update: {
+          args: Prisma.TokenRevocationUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TokenRevocationPayload>
+        }
+        deleteMany: {
+          args: Prisma.TokenRevocationDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.TokenRevocationUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.TokenRevocationUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TokenRevocationPayload>[]
+        }
+        upsert: {
+          args: Prisma.TokenRevocationUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TokenRevocationPayload>
+        }
+        aggregate: {
+          args: Prisma.TokenRevocationAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateTokenRevocation>
+        }
+        groupBy: {
+          args: Prisma.TokenRevocationGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.TokenRevocationGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.TokenRevocationCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.TokenRevocationCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -805,6 +880,15 @@ export const TransactionScalarFieldEnum = {
 } as const
 
 export type TransactionScalarFieldEnum = (typeof TransactionScalarFieldEnum)[keyof typeof TransactionScalarFieldEnum]
+
+
+export const TokenRevocationScalarFieldEnum = {
+  jti: 'jti',
+  expiresAt: 'expiresAt',
+  createdAt: 'createdAt'
+} as const
+
+export type TokenRevocationScalarFieldEnum = (typeof TokenRevocationScalarFieldEnum)[keyof typeof TokenRevocationScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -1075,6 +1159,7 @@ export type GlobalOmitConfig = {
   account?: Prisma.AccountOmit
   category?: Prisma.CategoryOmit
   transaction?: Prisma.TransactionOmit
+  tokenRevocation?: Prisma.TokenRevocationOmit
 }
 
 /* Types for Logging */

@@ -2,6 +2,7 @@ import { Router } from "express";
 import type { Request, Response } from "express";
 import bcrypt from "bcryptjs";
 import jwt, { type SignOptions } from "jsonwebtoken";
+import { randomUUID } from "node:crypto";
 import { prisma } from "../lib/prisma.js";
 import { authenticateToken } from "../middlewares/auth.js";
 
@@ -97,7 +98,7 @@ router.post("/signup", async (req: Request, res: Response) => {
         });
 
         const token = jwt.sign(
-            { sub: user.id, email: user.email },
+            { sub: user.id, email: user.email, jti: randomUUID() },
             getJwtSecret(),
             tokenOptions,
         );
@@ -173,7 +174,7 @@ router.post("/login", async (req: Request, res: Response) => {
         }
 
         const token = jwt.sign(
-            { sub: user.id, email: user.email },
+            { sub: user.id, email: user.email, jti: randomUUID() },
             getJwtSecret(),
             tokenOptions,
         );
@@ -233,6 +234,46 @@ router.get("/profile", authenticateToken, async (req: Request, res: Response) =>
         res.status(500).json({
             success: false,
             message: "Failed to fetch user profile"
+        });
+    }
+});
+
+// POST /api/auth/logout
+router.post("/logout", authenticateToken, async (req: Request, res: Response) => {
+    try {
+        const authorization = req.headers.authorization;
+        const token = authorization!.slice(7).trim();
+
+        const decoded = jwt.verify(token, getJwtSecret());
+
+        if (typeof decoded === "string" || typeof decoded.jti !== "string" || typeof decoded.exp !== "number") {
+            res.status(401).json({
+                success: false,
+                message: "Invalid authentication token",
+            });
+
+            return;
+        }
+
+        await prisma.tokenRevocation.upsert({
+            where: { jti: decoded.jti },
+            create: {
+                jti: decoded.jti,
+                expiresAt: new Date(decoded.exp * 1000),
+            },
+            update: {},
+        });
+
+        res.status(200).json({
+            success: true,
+            message: "Logged out seccessfully",
+        });
+    }
+    catch (err) {
+        console.error("Logout error:", err);
+        res.status(500).json({
+            success: false,
+            message: "Failed to logout",
         });
     }
 });

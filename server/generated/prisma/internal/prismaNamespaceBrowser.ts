@@ -54,7 +54,8 @@ export const ModelName = {
   User: 'User',
   Account: 'Account',
   Category: 'Category',
-  Transaction: 'Transaction'
+  Transaction: 'Transaction',
+  TokenRevocation: 'TokenRevocation'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -123,6 +124,15 @@ export const TransactionScalarFieldEnum = {
 } as const
 
 export type TransactionScalarFieldEnum = (typeof TransactionScalarFieldEnum)[keyof typeof TransactionScalarFieldEnum]
+
+
+export const TokenRevocationScalarFieldEnum = {
+  jti: 'jti',
+  expiresAt: 'expiresAt',
+  createdAt: 'createdAt'
+} as const
+
+export type TokenRevocationScalarFieldEnum = (typeof TokenRevocationScalarFieldEnum)[keyof typeof TokenRevocationScalarFieldEnum]
 
 
 export const SortOrder = {
