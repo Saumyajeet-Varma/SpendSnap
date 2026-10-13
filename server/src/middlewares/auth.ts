@@ -1,5 +1,6 @@
 import type { Request, Response, NextFunction } from "express";
 import jwt, { type JwtPayload } from "jsonwebtoken";
+import { prisma } from "../lib/prisma.js";
 
 declare global {
     namespace Express {
@@ -12,7 +13,7 @@ declare global {
     }
 }
 
-export const authenticateToken = (req: Request, res: Response, next: NextFunction): void => {
+export const authenticateToken = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     const authorization = req.headers.authorization;
 
     if (!authorization?.startsWith("Bearer ")) {
@@ -50,7 +51,7 @@ export const authenticateToken = (req: Request, res: Response, next: NextFunctio
     try {
         const decoded = jwt.verify(token, secret);
 
-        if (typeof decoded === "string" || typeof decoded.sub !== "string" || !decoded.sub) {
+        if (typeof decoded === "string" || typeof decoded.sub !== "string" || typeof decoded.jti !== "string" || typeof decoded.exp !== "number" || !decoded.jti) {
             res.status(401).json({
                 success: false,
                 message: "Invalid authentication token",
@@ -61,6 +62,19 @@ export const authenticateToken = (req: Request, res: Response, next: NextFunctio
 
         const payload = decoded as JwtPayload;
 
+        const revokedToken = await prisma.tokenRevocation.findUnique({
+            where: { jti: payload.jti as string },
+        });
+
+        if (revokedToken) {
+            res.status(401).json({
+                success: false,
+                message: "Token has been revoked. Please login again",
+            });
+
+            return;
+        }
+
         req.user = {
             id: payload.sub as string,
             ...(typeof payload.email === "string" ? { email: payload.email } : {}),
@@ -69,6 +83,15 @@ export const authenticateToken = (req: Request, res: Response, next: NextFunctio
         next();
     }
     catch (err) {
+        if (err instanceof jwt.JsonWebTokenError) {
+            res.status(401).json({
+                success: false,
+                message: "Invalid or expired authentication token",
+            });
+
+            return;
+        }
+
         console.error("Authnetication service problem occurred:", err)
         res.status(401).json({
             success: false,

@@ -37,3 +37,8 @@ export type Category = Prisma.CategoryModel
  * 
  */
 export type Transaction = Prisma.TransactionModel
+/**
+ * Model TokenRevocation
+ * 
+ */
+export type TokenRevocation = Prisma.TokenRevocationModel
