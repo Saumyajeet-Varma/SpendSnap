@@ -3,6 +3,7 @@ import type { Request, Response } from "express";
 import bcrypt from "bcryptjs";
 import jwt, { type SignOptions } from "jsonwebtoken";
 import { prisma } from "../lib/prisma.js";
+import { authenticateToken } from "../middlewares/auth.js";
 
 const router = Router();
 
@@ -195,6 +196,43 @@ router.post("/login", async (req: Request, res: Response) => {
         res.status(500).json({
             success: false,
             message: "Failed to log in",
+        });
+    }
+});
+
+// GET /api/auth/profile
+router.get("/profile", authenticateToken, async (req: Request, res: Response) => {
+    try {
+        const userId = req.user!.id;
+
+        const user = await prisma.user.findUnique({
+            where: { id: userId },
+            select: {
+                id: true,
+                email: true,
+                createdAt: true,
+            },
+        });
+
+        if (!user) {
+            res.status(401).json({
+                success: false,
+                message: "User no longer exists",
+            });
+
+            return;
+        }
+
+        res.status(200).json({
+            success: true,
+            data: user,
+        });
+    }
+    catch (err) {
+        console.error("get current user error:", err);
+        res.status(500).json({
+            success: false,
+            message: "Failed to fetch user profile"
         });
     }
 });
