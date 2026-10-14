@@ -1,16 +1,19 @@
 import { Router } from "express";
 import type { Request, Response } from "express";
 import { prisma } from "../lib/prisma.js";
+import { authenticateToken } from "../middlewares/auth.js";
 
 const router = Router();
 
 const isValidColor = (color: unknown): color is string => 
     typeof color === "string" && /^#[0-9a-fA-F]{6}$/.test(color);
 
-// GET /api/categories?userId=...
+router.use(authenticateToken);
+
+// GET /api/categories
 router.get("/", async (req: Request, res: Response) => {
     try {
-        const userId = typeof req.query.userId === "string" ? req.query.userId : "";
+        const userId = req.user!.id;
 
         if (!userId) {
             res.status(400).json({
@@ -45,11 +48,11 @@ router.get("/", async (req: Request, res: Response) => {
     }
 });
 
-// GET /api/categories/:id?userId=...
+// GET /api/categories/:id
 router.get("/:id", async (req: Request, res: Response) => {
     try {
         const categoryId = req.params.id;
-        const userId = typeof req.query.userId === "string" ? req.query.userId : "";
+        const userId = req.user!.id;
 
         if (typeof categoryId !== "string") {
             res.status(400).json({
@@ -104,7 +107,8 @@ router.get("/:id", async (req: Request, res: Response) => {
 // POST /api/categories
 router.post("/", async (req: Request, res: Response) => {
     try {
-        const { userId, name, color } = req.body;
+        const { name, color } = req.body;
+        const userId = req.user!.id;
 
         if (typeof userId !== "string" || !userId.trim()) {
             res.status(400).json({
@@ -183,7 +187,8 @@ router.post("/", async (req: Request, res: Response) => {
 router.patch("/:id", async (req: Request, res: Response) => {
     try {
         const categoryId = req.params.id;
-        const { userId, name, color } = req.body;
+        const { name, color } = req.body;
+        const userId = req.user!.id;
 
         if (typeof categoryId !== "string") {
             res.status(400).json({
@@ -281,11 +286,11 @@ router.patch("/:id", async (req: Request, res: Response) => {
     }
 });
 
-// DELETE /api/categories/:id?userId=...
+// DELETE /api/categories/:id
 router.delete("/:id", async (req: Request, res: Response) => {
     try {
         const categoryId = req.params.id;
-        const userId = typeof req.query.userId === "string" ? req.query.userId : "";
+        const userId = req.user!.id;
 
         if (typeof categoryId !== "string") {
             res.status(400).json({

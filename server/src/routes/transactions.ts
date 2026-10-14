@@ -2,15 +2,17 @@ import { Router } from "express";
 import type { Request, Response } from "express";
 import { TransactionType } from "../../generated/prisma/client.js";
 import { prisma } from "../lib/prisma.js";
+import { authenticateToken } from "../middlewares/auth.js";
 
 const router = Router();
-
 const validTransactionTypes = Object.values(TransactionType);
 
-// GET /api/transactions?userId=...
+router.use(authenticateToken);
+
+// GET /api/transactions
 router.get("/", async (req: Request, res: Response) => {
     try {
-        const userId = typeof req.query.userId === "string" ? req.query.userId : "";
+        const userId = req.user!.id;
 
         if (!userId) {
             res.status(400).json({
@@ -47,7 +49,8 @@ router.get("/", async (req: Request, res: Response) => {
 // POST /api/transactions
 router.post("/", async (req: Request, res: Response) => {
     try {
-        const { userId, accountId, categoryId, description, amount, type, date } = req.body;
+        const { accountId, categoryId, description, amount, type, date } = req.body;
+        const userId = req.user!.id;
 
         if (typeof userId !== "string" || !userId.trim() || typeof accountId !== "string" || !accountId.trim()) {
             res.status(400).json({
