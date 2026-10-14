@@ -9,10 +9,10 @@ const validAccountTypes = Object.values(AccountType)
 
 router.use(authenticateToken);
 
-// GET /api/accounts/userId=...
+// GET /api/accounts/
 router.get("/", async (req: Request, res: Response) => {
     try {
-        const userId = typeof req.query.userId === "string" ? req.query.userId : "";
+        const userId = req.user!.id;
 
         if (!userId) {
             res.status(400).json({
@@ -47,11 +47,11 @@ router.get("/", async (req: Request, res: Response) => {
     }
 })
 
-// GET /api/accounts/:id?userId=...
+// GET /api/accounts/:id
 router.get("/:id", async (req: Request, res: Response) => {
     try {
         const accountId = req.params.id;
-        const userId = typeof req.query.userId === "string" ? req.query.userId : "";
+        const userId = req.user!.id;
 
         if (typeof accountId !== "string") {
             res.status(400).json({
@@ -111,7 +111,8 @@ router.get("/:id", async (req: Request, res: Response) => {
 // POST /api/accounts
 router.post("/", async (req: Request, res: Response) => {
     try {
-        const { userId, name, type, currency, openingBalance } = req.body;
+        const { name, type, currency, openingBalance } = req.body;
+        const userId = req.user!.id;
 
         if (typeof userId !== "string" || !userId.trim()) {
             res.status(400).json({
@@ -212,7 +213,8 @@ router.post("/", async (req: Request, res: Response) => {
 router.patch("/:id", async (req: Request, res: Response) => {
     try {
         const accountId = req.params.id;
-        const { userId, name, type, currency, openingBalance } = req.body;
+        const { name, type, currency, openingBalance } = req.body;
+        const userId = req.user!.id;
 
         if (typeof accountId !== "string") {
             res.status(400).json({
@@ -339,11 +341,11 @@ router.patch("/:id", async (req: Request, res: Response) => {
     }
 });
 
-// DELETE /api/accounts/:id?userId=...
+// DELETE /api/accounts/:id
 router.delete("/:id", async (req: Request, res: Response) => {
     try {
         const accountId = req.params.id;
-        const userId = typeof req.query.userId === "string" ? req.query.userId : "";
+        const userId = req.user!.id;
 
         if (typeof accountId !== "string") {
             res.status(400).json({
