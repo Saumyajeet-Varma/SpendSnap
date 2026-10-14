@@ -83,6 +83,8 @@ router.get("/:id", async (req: Request, res: Response) => {
                 success: "false",
                 message: "category not found",
             });
+
+            return;
         }
 
         res.status(200).json({
