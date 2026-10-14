@@ -1,11 +1,14 @@
 import { Router } from "express";
 import type { Request, Response } from "express";
 import { prisma } from "../lib/prisma.js";
+import { authenticateToken } from "../middlewares/auth.js";
 
 const router = Router();
 
 const isValidColor = (color: unknown): color is string => 
     typeof color === "string" && /^#[0-9a-fA-F]{6}$/.test(color);
+
+router.use(authenticateToken);
 
 // GET /api/categories?userId=...
 router.get("/", async (req: Request, res: Response) => {

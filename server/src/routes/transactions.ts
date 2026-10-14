@@ -2,10 +2,12 @@ import { Router } from "express";
 import type { Request, Response } from "express";
 import { TransactionType } from "../../generated/prisma/client.js";
 import { prisma } from "../lib/prisma.js";
+import { authenticateToken } from "../middlewares/auth.js";
 
 const router = Router();
-
 const validTransactionTypes = Object.values(TransactionType);
+
+router.use(authenticateToken);
 
 // GET /api/transactions?userId=...
 router.get("/", async (req: Request, res: Response) => {

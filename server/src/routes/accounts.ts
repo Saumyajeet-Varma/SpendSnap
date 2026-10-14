@@ -2,9 +2,12 @@ import { Router } from "express";
 import type { Request, Response } from "express";
 import { AccountType } from "../../generated/prisma/client.js";
 import { prisma } from "../lib/prisma.js";
+import { authenticateToken } from "../middlewares/auth.js";
 
 const router = Router();
 const validAccountTypes = Object.values(AccountType)
+
+router.use(authenticateToken);
 
 // GET /api/accounts/userId=...
 router.get("/", async (req: Request, res: Response) => {
